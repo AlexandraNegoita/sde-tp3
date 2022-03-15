@@ -28,13 +28,22 @@ fn multiply(a:i32,b:i32)->i32{
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len()!=4{
+    if args.len()!=3{
         println!("Nu ati introdus parametri corespunzatori.");
         std::process::exit(-1);
     }
     else{
-        let command=&args[1];
-        let a=match args[2].parse(){
+        //$env:CMD="sub"
+        let command = match env::var("CMD"){
+            Ok(s)=>{
+                s
+            }
+            Err(_)=>{
+                println!("Comanda nu este valida.");
+                std::process::exit(-1);
+            }
+        };
+        let a=match args[1].parse(){
             Ok(n) =>{
                 n
             }
@@ -43,7 +52,7 @@ fn main() {
                 std::process::exit(-1);
             }
         };
-        let b=match args[3].parse(){
+        let b=match args[2].parse(){
             Ok(n) =>{
                 n
             }
